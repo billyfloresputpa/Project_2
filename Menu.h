@@ -45,9 +45,11 @@ class Menu {
     void generaobstaculos(TipoEntero);
     void buscarObjeto();
     void moverobjeto();
+    void ingresaBoss();
 public:
     Menu(): opcion{} {}
     void ejecutar();
 };
 
 #endif //AGREGACION_MENU_H
+
