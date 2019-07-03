@@ -45,7 +45,7 @@ Objeto* Tierra::removerObjeto(string& nombre) {
 void Tierra::imprimirObjetos() {
     int i = 0;
     for (auto& item: objetos) {
-        if(item->getNombre()!="Obstaculo")
+        if(item->getState()=="Boss"||item->getState()=="Robot")
         {
         cout << "* * * * * * [" << i << "] ";
         cout << " Nombre = " << item->getNombre() << " "
