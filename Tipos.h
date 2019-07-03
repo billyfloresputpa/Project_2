@@ -12,5 +12,6 @@ using namespace std;
 using TipoEntero = int;
 using TipoCaracter = char;
 using TipoString = string;
+using TipoBool = bool;
 
 #endif //AGREGACION_TIPOS_H
