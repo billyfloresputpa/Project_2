@@ -11,7 +11,7 @@
 
 using namespace std;
 
-enum class Opciones { Agregar=1, Remover, Mostrar, Buscar, Mover,Boss,Crecer};
+enum class Opciones { Agregar=1, Remover, Mostrar, Buscar, Mover,Boss,Crecer,Ocupados};
 
 
 void limpiar() {
@@ -21,7 +21,7 @@ void limpiar() {
 void esperar() {
     char w;
     do {
-         w = input<TipoCaracter>("Presione C y Enter para continuar...");
+        w = input<TipoCaracter>("Presione C y Enter para continuar...");
     }while (toupper(w) != 'C');
 }
 
@@ -34,8 +34,9 @@ void Menu::imprimirMenu() {
     cout << "3. Dibujar Mapa\n";
     cout<< "4. Buscar Robot\n";
     cout<<"5. Mover Objeto\n";
-    cout<<"6. Agregar Boss\n\n";
-    cout<< "7. Crecer objeto \n\n";
+    cout<<"6. Agregar Boss\n";
+    cout<< "7. Crecer objeto \n";
+    cout<<"8. Contar el número de casilleros ocupados.\n\n";
     cout << "0. Para Salir\n\n";
 }
 
@@ -224,40 +225,40 @@ void Menu::ingresaBoss()
         }
     }while(cont!=0);
 
-if (x<21&&y<21&&(x+xn)<21&&(y+yn)<21){
-    for (TipoEntero f = y; f < y + yn - 1; f++) {
-        for (TipoEntero c = x; c < x + xn; c++) {
-            for (auto &item:tierra.objetos) {
-                if (item->getPosY() == f && item->getPosX() == c) {
-                    cont2++;
-                    break;
+    if (x<21&&y<21&&(x+xn)<21&&(y+yn)<21){
+        for (TipoEntero f = y; f < y + yn - 1; f++) {
+            for (TipoEntero c = x; c < x + xn; c++) {
+                for (auto &item:tierra.objetos) {
+                    if (item->getPosY() == f && item->getPosX() == c) {
+                        cont2++;
+                        break;
+                    }
                 }
+                if (cont2 != 0)
+                    break;
             }
             if (cont2 != 0)
                 break;
         }
-        if (cont2 != 0)
-            break;
-    }
-    if (cont2 != 0) {
-        cout << endl << "Ya existe un robot en esa area" << endl;
-    }
-    if (cont2 == 0) {
+        if (cont2 != 0) {
+            cout << endl << "Ya existe un robot en esa area" << endl;
+        }
+        if (cont2 == 0) {
 
-        for (TipoEntero f = y; f < y + yn; f++) {
-            for (TipoEntero c = x; c < x + xn; c++) {
-                if ((f == x) && (c == y)) {
-                    tierra.adicionarObjeto(new Objeto(nombre, color, x, y, "Boss"));
-                    continue;
+            for (TipoEntero f = y; f < y + yn; f++) {
+                for (TipoEntero c = x; c < x + xn; c++) {
+                    if ((f == x) && (c == y)) {
+                        tierra.adicionarObjeto(new Objeto(nombre, color, x, y, "Boss"));
+                        continue;
+                    }
+                    tierra.adicionarObjeto(new Objeto(nombre, color, c, f, "BossTile"));
+
                 }
-                tierra.adicionarObjeto(new Objeto(nombre, color, c, f, "BossTile"));
-
             }
         }
     }
-}
-else
-    cout<<"Esa posición no existe";
+    else
+        cout<<"Esa posición no existe";
 }
 
 void Menu::crecerObjeto()
@@ -281,14 +282,14 @@ void Menu::crecerObjeto()
             {
                 for(TipoEntero c=x;c<x+xn;c++)
                 {if(f!=y&&c!=x){
-                    for(auto& item:tierra.objetos)
-                    {
-                        if(item->getPosY()==f&&item->getPosX()==c)
+                        for(auto& item:tierra.objetos)
                         {
-                            cont2++;
-                            break;
+                            if(item->getPosY()==f&&item->getPosX()==c)
+                            {
+                                cont2++;
+                                break;
+                            }
                         }
-                    }
                     }if(cont2!=0)
                         break;
                 }if(cont2!=0)
@@ -317,31 +318,41 @@ void Menu::crecerObjeto()
     }    if(cont==0)cout<<"No existe el robot";
 }
 
-
+void Menu::casillerosOcupados(){
+    int cont_cas=0;
+    for(auto& item:tierra.objetos)
+    {
+        cont_cas++;
+    }
+    cout<<"El número de casilleros ocupados es "<< cont_cas<<"\n\n";
+}
 
 void Menu::seleccionarOpcion() {
     limpiar();
     switch(Opciones(opcion)) {
-      case Opciones::Agregar:  // Agregar Objeto
+        case Opciones::Agregar:  // Agregar Objeto
             agregarObjeto();
             break;
-      case Opciones::Remover:  // Remover Objeto
+        case Opciones::Remover:  // Remover Objeto
             removerObjeto();
             break;
-      case  Opciones::Mostrar: // Dibujando Tierra
+        case  Opciones::Mostrar: // Dibujando Tierra
             dibujarMapa();
             break;
-      case Opciones::Buscar: //Buscando Objeto
+        case Opciones::Buscar: //Buscando Objeto
             buscarObjeto();
             break;
-      case Opciones::Mover: //Mover Objeto
+        case Opciones::Mover: //Mover Objeto
             moverobjeto();
             break;
-      case Opciones::Boss:
+        case Opciones::Boss:
             ingresaBoss();
             break;
-      case Opciones::Crecer:
+        case Opciones::Crecer:
             crecerObjeto();
+            break;
+        case Opciones::Ocupados:
+            casillerosOcupados();
             break;
     }
 }
