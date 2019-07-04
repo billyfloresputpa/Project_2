@@ -34,7 +34,7 @@ void Menu::imprimirMenu() {
     cout << "3. Dibujar Mapa\n";
     cout<< "4. Buscar Robot\n";
     cout<<"5. Mover Objeto\n";
-    cout<<"6. Agregar Boss\n";
+    cout<<"6. Agregar Boss\n\n";
     cout<< "7. Crecer objeto \n\n";
     cout << "0. Para Salir\n\n";
 }
@@ -220,39 +220,40 @@ void Menu::ingresaBoss()
         }
     }while(cont!=0);
 
-
-    for(TipoEntero f=y;f<y+yn-1;f++)
-    {
-        for(TipoEntero c=x;c<x+xn;c++)
-        {
-            for(auto& item:tierra.objetos)
-            {
-                if(item->getPosY()==f&&item->getPosX()==c) {
+if (x<21&&y<21&&(x+xn)<21&&(y+yn)<21){
+    for (TipoEntero f = y; f < y + yn - 1; f++) {
+        for (TipoEntero c = x; c < x + xn; c++) {
+            for (auto &item:tierra.objetos) {
+                if (item->getPosY() == f && item->getPosX() == c) {
                     cont2++;
                     break;
                 }
-            }if(cont2!=0)
+            }
+            if (cont2 != 0)
                 break;
-        }if(cont2!=0)
+        }
+        if (cont2 != 0)
             break;
-    }if (cont2!=0){
-        cout<<endl<<"Ya existe un robot en esa area"<<endl;
     }
-    if(cont2==0)
-    {
+    if (cont2 != 0) {
+        cout << endl << "Ya existe un robot en esa area" << endl;
+    }
+    if (cont2 == 0) {
 
-        for(TipoEntero f=y;f<y+yn;f++)
-        {
-            for(TipoEntero c=x;c<x+xn;c++)
-            {
-                if((f==x)&&(c==y)){
-                    tierra.adicionarObjeto(new Objeto(nombre, color, x, y,"Boss"));
-                    continue;}
-                tierra.adicionarObjeto(new Objeto(nombre, color, c, f,"BossTile"));
+        for (TipoEntero f = y; f < y + yn; f++) {
+            for (TipoEntero c = x; c < x + xn; c++) {
+                if ((f == x) && (c == y)) {
+                    tierra.adicionarObjeto(new Objeto(nombre, color, x, y, "Boss"));
+                    continue;
+                }
+                tierra.adicionarObjeto(new Objeto(nombre, color, c, f, "BossTile"));
 
             }
         }
     }
+}
+else
+    cout<<"Esa posición no existe";
 }
 
 void Menu::crecerObjeto()
@@ -312,6 +313,8 @@ void Menu::crecerObjeto()
     }    if(cont==0)cout<<"No existe el robot";
 }
 
+
+
 void Menu::seleccionarOpcion() {
     limpiar();
     switch(Opciones(opcion)) {
@@ -330,10 +333,10 @@ void Menu::seleccionarOpcion() {
       case Opciones::Mover: //Mover Objeto
             moverobjeto();
             break;
-      case Opciones::Boss:
+      case Opciones::Boss: //Crear Boss
             ingresaBoss();
             break;
-      case Opciones::Crecer:
+      case Opciones::Crecer: //Opción adicional
             crecerObjeto();
             break;
     }
