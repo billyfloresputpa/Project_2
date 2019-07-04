@@ -168,11 +168,15 @@ void Menu::moverobjeto() {
                 cont2=0;
                 x = input<TipoEntero>("Ingrese nueva posicion X : ");
                 y = input<TipoEntero>("Ingrese nueva posicion Y : ");
-                for(auto &item2: tierra.objetos) {
-                    if (item2->getPosY() == y && item2->getPosX() == x){
-                        cont2++;
-                    cout << endl << "Ha seleccionado una pocision ocupada" << endl;
-                } }
+                if (x<21&&y<21) {
+                    for (auto &item2: tierra.objetos) {
+                        if (item2->getPosY() == y && item2->getPosX() == x) {
+                            cont2++;
+                            cout << endl << "Ha seleccionado una pocision ocupada" << endl;
+                        }
+                    }
+                } else
+                    cout<<"Esa posición no existe";
 
             }while(cont2!=0);
             item->setPosX(x);
@@ -333,10 +337,10 @@ void Menu::seleccionarOpcion() {
       case Opciones::Mover: //Mover Objeto
             moverobjeto();
             break;
-      case Opciones::Boss: //Crear Boss
+      case Opciones::Boss:
             ingresaBoss();
             break;
-      case Opciones::Crecer: //Opción adicional
+      case Opciones::Crecer:
             crecerObjeto();
             break;
     }
