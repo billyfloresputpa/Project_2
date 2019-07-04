@@ -46,6 +46,7 @@ class Menu {
     void buscarObjeto();
     void moverobjeto();
     void ingresaBoss();
+    void crecerObjeto();
 public:
     Menu(): opcion{} {}
     void ejecutar();
