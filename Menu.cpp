@@ -35,7 +35,7 @@ void Menu::imprimirMenu() {
     cout<< "4. Buscar Robot\n";
     cout<<"5. Mover Objeto\n";
     cout<<"6. Agregar Boss\n";
-    cout<< "7. Crecer objeto"/n/n";
+    cout<< "7. Crecer objeto \n\n";
     cout << "0. Para Salir\n\n";
 }
 
