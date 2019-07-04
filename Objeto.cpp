@@ -35,3 +35,4 @@ Boss::Boss(const TipoString& nombre, TipoCaracter color,
 
 TipoString Objeto::mostrarPosicion() {
     return "X = " + to_string(posX) + " Y = " + to_string(posY);
+}
