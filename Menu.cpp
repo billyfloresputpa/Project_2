@@ -11,7 +11,7 @@
 
 using namespace std;
 
-enum class Opciones { Agregar=1, Remover, Mostrar, Buscar, Mover,Boss};
+enum class Opciones { Agregar=1, Remover, Mostrar, Buscar, Mover,Boss,Crecer};
 
 
 void limpiar() {
@@ -254,7 +254,62 @@ void Menu::ingresaBoss()
     }
 }
 
+void Menu::crecerObjeto()
+{
+    TipoEntero cont=0,xn,yn,x,y,cont2=0;
+    TipoCaracter color;
 
+    TipoString nombre = input<TipoString>("Ingrese el nombre del Robot : ");
+
+    for(auto & itemA: tierra.objetos)
+    {
+        if(nombre==itemA->getNombre())
+        {   cont+=1;
+            x=itemA->getPosX();
+            y=itemA->getPosY();
+            color=itemA->getColor();
+
+            xn = input<TipoEntero>("Ingrese el tamaño horizontal del Robot : ");
+            yn = input<TipoEntero>("Ingrese el tamaño vertical del Robot ");
+            for(TipoEntero f=y;f<y+yn-1;f++)
+            {
+                for(TipoEntero c=x;c<x+xn;c++)
+                {if(f!=y&&c!=x){
+                    for(auto& item:tierra.objetos)
+                    {
+                        if(item->getPosY()==f&&item->getPosX()==c)
+                        {
+                            cont2++;
+                            break;
+                        }
+                    }
+                    }if(cont2!=0)
+                        break;
+                }if(cont2!=0)
+                    break;
+            }if (cont2!=0){
+                cout<<endl<<"Ya existe un robot en esa area"<<endl;
+            }
+
+            if(cont2==0)
+            {
+
+                for(TipoEntero f=y;f<y+yn;f++)
+                {
+                    for(TipoEntero c=x;c<x+xn;c++)
+                    {
+                        if((f==x)&&(c==y)){
+                            continue;}
+                        tierra.adicionarObjeto(new Objeto(nombre, color, c, f,"BossTile"));
+
+                    }
+                }
+            }break;
+        }
+        else continue;
+
+    }    if(cont==0)cout<<"No existe el robot";
+}
 
 void Menu::seleccionarOpcion() {
     limpiar();
@@ -277,6 +332,8 @@ void Menu::seleccionarOpcion() {
       case Opciones::Boss:
             ingresaBoss();
             break;
-
+      case Opciones::Crecer:
+            crecerObjeto();
+            break;
     }
 }
